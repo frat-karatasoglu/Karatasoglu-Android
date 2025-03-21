@@ -40,7 +40,26 @@ android {
 }
 
 dependencies {
-
+    implementation("androidx.compose.material:material:1.5.0")
+    implementation("androidx.navigation:navigation-compose:2.6.0")
+    implementation("com.google.android.material:material:1.6.1")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")
+    implementation("androidx.navigation:navigation-ui-ktx:2.5.3")
+    implementation("androidx.compose.ui:ui:1.5.0")
+    implementation("androidx.compose.material:material:1.5.0")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
+    implementation("androidx.activity:activity-compose:1.8.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    // Navigation for Compose
+    implementation("androidx.navigation:navigation-compose:2.6.0")
+    implementation("io.coil-kt:coil-compose:2.3.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0") // ✅ Serialization için
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0") // ✅ Retrofit için JSON desteği
+    // Material Icons (for bottom navigation icons)
+    implementation("androidx.compose.material:material-icons-extended:1.5.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
