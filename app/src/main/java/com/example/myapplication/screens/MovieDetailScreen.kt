@@ -32,13 +32,13 @@ fun MovieDetailScreen(
         )
 
         Text(text = title, fontSize = 24.sp)
-        Text(text = "Yıl: $year", fontSize = 16.sp)
-        Text(text = "IMDb Puanı: $rating", fontSize = 16.sp)
+        Text(text = "год: $year", fontSize = 16.sp)
+        Text(text = "IMDb : $rating", fontSize = 16.sp)
         Text(text = description, fontSize = 14.sp, modifier = Modifier.padding(vertical = 8.dp))
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(text = "Filmi Puanla", fontSize = 18.sp)
+        Text(text = "Оценить фильмы", fontSize = 18.sp)
 
         Slider(
             value = userRating,
@@ -48,6 +48,6 @@ fun MovieDetailScreen(
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
-        Text(text = "Senin Puanın: ${userRating.toInt()} / 5", fontSize = 18.sp)
+        Text(text = "Твоя Оценка: ${userRating.toInt()} / 5", fontSize = 18.sp)
     }
 }

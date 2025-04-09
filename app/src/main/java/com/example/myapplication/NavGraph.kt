@@ -12,7 +12,6 @@ import com.example.myapplication.screens.*
 
 sealed class Screen(val route: String, val title: String, val icon: ImageVector? = null) {
     object Movies : Screen("movies", "Movies", Icons.Default.Movie)
-    object Profile : Screen("profile", "Profile", Icons.Default.Person)
     object Login : Screen("login", "Giriş Yap")
     object MovieDetail : Screen("movie_detail/{title}/{year}/{rating}/{posterUrl}/{description}", "Movie Detail")
 }
@@ -28,9 +27,7 @@ fun NavGraph(navController: NavHostController) {
             LoginScreen(navController)
         }
 
-        composable(Screen.Profile.route) {
-            ProfileScreen(navController)
-        }
+
 
         composable(Screen.MovieDetail.route) { backStackEntry ->
             val title = backStackEntry.arguments?.getString("title") ?: "Unknown"

@@ -11,7 +11,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
-    val items = listOf(Screen.Movies, Screen.Profile)
+    val items = listOf(Screen.Movies)
     BottomNavigation(backgroundColor = Color(0xFF6200EE)) {
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
         items.forEach { screen ->
