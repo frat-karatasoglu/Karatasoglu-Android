@@ -24,11 +24,13 @@ import java.nio.charset.StandardCharsets
 @Composable
 fun MovieScreen(navController: NavController) {
     val context = LocalContext.current
-
-    // ViewModel'i oluştur
     val repository = remember { MovieRepository(RetrofitInstance.api) }
-    val viewModel: MovieViewModel = viewModel(factory = MovieViewModelFactory(repository))
-
+    val viewModel: MovieViewModel = viewModel(
+        factory = MovieViewModelFactory(repository, context)
+    )
+    LaunchedEffect(Unit) {
+        viewModel.fetchFilteredMovies()
+    }
     val uiState by viewModel.uiState.collectAsState()
     val searchQuery by remember { viewModel.searchQuery }
 
@@ -43,7 +45,7 @@ fun MovieScreen(navController: NavController) {
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        // Arama Çubuğu
+        // 🔍 Arama Çubuğu
         TextField(
             value = searchQuery,
             onValueChange = { viewModel.onSearchQueryChange(it) },

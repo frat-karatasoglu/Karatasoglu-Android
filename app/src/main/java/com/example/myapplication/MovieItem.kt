@@ -19,7 +19,7 @@ fun MovieItem(movie: Movie, onClick: () -> Unit) {
             .padding(8.dp)
             .clickable { onClick() }
     ) {
-        // Poster ekleniyor
+
         Image(
             painter = rememberAsyncImagePainter(movie.poster?.url),
             contentDescription = movie.name,
