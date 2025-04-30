@@ -8,6 +8,9 @@ import com.example.myapplication.models.Movie
 import com.example.myapplication.repository.MovieRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import com.example.myapplication.datastore.getFilters // ✅ Bunu ekle!
+
+
 
 sealed class MovieUiState {
     object Loading : MovieUiState()
@@ -30,8 +33,12 @@ class MovieViewModel(
     private var currentRating = 0f
     private var currentName = ""
 
+    // ✅ Badge için durum
+    private val _showBadge = MutableStateFlow(false)
+    val showBadge: StateFlow<Boolean> = _showBadge
+
     init {
-        fetchFilteredMovies()
+        fetchFilteredMovies() // ✅ badge kontrolü başlat
     }
 
     fun onSearchQueryChange(newQuery: String) {
@@ -43,20 +50,15 @@ class MovieViewModel(
 
         viewModelScope.launch {
             try {
-
                 currentGenre = settingsManager.genreFlow.first()
                 currentRating = settingsManager.ratingFlow.first()
                 currentName = settingsManager.nameFlow.first()
 
                 println("🎯 Filtreler -> Tür: $currentGenre, Puan: $currentRating, İsim: $currentName")
 
-
                 val response = repository.getMovies()
-
-
                 println("🎯 Gelen Filmler: ${response.docs}")
 
-                // UI state'i güncelle
                 _uiState.value = MovieUiState.Success(response.docs)
             } catch (e: Exception) {
                 _uiState.value = MovieUiState.Error("Ошибка: ${e.message}")
@@ -78,4 +80,19 @@ class MovieViewModel(
             }
         } else emptyList()
     }
+
+    // MovieViewModel.kt'de showBadge'i güncelleyin
+    private val _showNew = MutableStateFlow(false)
+    val showNew: StateFlow<Boolean> = _showNew
+
+    fun markFilterApplied() {
+        _showNew.value = true
+    }
+
+    fun clearFilterMark() {
+        _showNew.value = false
+    }
 }
+
+
+

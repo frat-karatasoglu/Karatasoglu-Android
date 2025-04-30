@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
 }
 
 android {
@@ -17,6 +18,16 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+
+kapt {
+        arguments {
+            arg("room.schemaLocation", "$projectDir/schemas")
+            arg("room.incremental", "true")
+            arg("room.expandProjection", "true")
+        }
+    }
+
 
     buildTypes {
         release {
@@ -44,6 +55,13 @@ dependencies {
     implementation ("androidx.datastore:datastore-preferences:1.0.0")
 
     // Kotlin Coroutines (zaten varsa bir daha ekleme)
+
+        // Room için gerekli bağımlılıklar
+    implementation("androidx.room:room-runtime:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    implementation ("androidx.room:room-runtime:2.5.0" ) // veya en son sürüm
+    kapt ("androidx.room:room-compiler:2.5.0")
 
 
     implementation("androidx.compose.material:material:1.5.0")

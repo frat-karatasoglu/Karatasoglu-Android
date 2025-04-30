@@ -8,8 +8,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.myapplication.viewmodel.FavoriteViewModel
+import com.example.myapplication.room.FavoriteMovie
 
 @Composable
 fun MovieDetailScreen(
@@ -17,18 +18,23 @@ fun MovieDetailScreen(
     year: String,
     rating: String,
     posterUrl: String,
-    description: String
+    description: String,
+    viewModel: FavoriteViewModel
 ) {
-    var userRating by remember { mutableStateOf(0f) } // Kullanıcı puanı
+    var userRating by remember { mutableStateOf(0f) }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = rememberAsyncImagePainter(posterUrl),
             contentDescription = title,
-            modifier = Modifier.size(200.dp).padding(bottom = 16.dp)
+            modifier = Modifier
+                .size(200.dp)
+                .padding(bottom = 16.dp)
         )
 
         Text(text = title, fontSize = 24.sp)
@@ -49,5 +55,22 @@ fun MovieDetailScreen(
         )
 
         Text(text = "Твоя Оценка: ${userRating.toInt()} / 5", fontSize = 18.sp)
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = {
+            val favoriteMovie = FavoriteMovie(
+                id = title,
+                name = title,
+                year = year.toIntOrNull(),
+                rating = userRating,
+                posterUrl = posterUrl,
+                description = description
+            )
+
+            viewModel.addFavorite(favoriteMovie) // insertFavorite değil addFavorite olacak
+        }) {
+            Text(text = "Add to Favorites")
+        }
     }
 }

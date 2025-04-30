@@ -21,20 +21,16 @@ import kotlinx.coroutines.launch
 @Composable
 fun SettingsScreen(
     context: Context,
-    navController: NavController
-) {
+    navController: NavController,
+    movieViewModel: MovieViewModel // ✅ dışarıdan al
+)
+ {
     val coroutineScope = rememberCoroutineScope()
     val settingsManager = remember { SettingsManager(context) }
-
-
-    val repository = remember { MovieRepository(RetrofitInstance.api) }
-    val viewModel: MovieViewModel = viewModel(factory = MovieViewModelFactory(repository, context))
-
 
     var selectedGenre by remember { mutableStateOf("Все") }
     var minRating by remember { mutableStateOf(0f) }
     var filmName by remember { mutableStateOf("") }
-
 
     LaunchedEffect(Unit) {
         selectedGenre = settingsManager.genreFlow.first()
@@ -52,7 +48,6 @@ fun SettingsScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text("Настройки фильтра", fontSize = 24.sp, modifier = Modifier.padding(bottom = 16.dp))
-
 
         var expanded by remember { mutableStateOf(false) }
         Box(modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)) {
@@ -77,7 +72,6 @@ fun SettingsScreen(
             }
         }
 
-
         Text("Минимальная оценка: ${minRating.toInt()}", modifier = Modifier.padding(bottom = 8.dp))
         Slider(
             value = minRating,
@@ -86,7 +80,6 @@ fun SettingsScreen(
             steps = 9,
             modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp)
         )
-
 
         OutlinedTextField(
             value = filmName,
@@ -102,14 +95,23 @@ fun SettingsScreen(
                     rating = minRating,
                     name = filmName
                 )
-
-                viewModel.fetchFilteredMovies()
+                movieViewModel.markFilterApplied()
+                movieViewModel.fetchFilteredMovies()
                 navController.popBackStack()
             }
         }) {
             Text("Применить")
         }
 
-
+        Button(onClick = {
+            coroutineScope.launch {
+                settingsManager.resetFilters()
+                movieViewModel.clearFilterMark()
+                movieViewModel.fetchFilteredMovies()
+                navController.popBackStack()
+            }
+        }) {
+            Text("Очистить фильтры")
+        }
     }
 }
