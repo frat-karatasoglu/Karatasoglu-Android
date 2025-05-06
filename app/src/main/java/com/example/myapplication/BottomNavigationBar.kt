@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun BottomNavigationBar(navController: NavController, movieViewModel: MovieViewModel) {
-    val items = listOf(Screen.Movies, Screen.Favorites, Screen.Settings)
+    val items = listOf(Screen.Movies, Screen.Favorites, Screen.Settings , Screen.Profile)
     val showNew = movieViewModel.showNew.collectAsState().value
 
     BottomNavigation(backgroundColor = Color(0xFF6200EE)) {
